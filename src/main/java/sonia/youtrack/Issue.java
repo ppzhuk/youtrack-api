@@ -2,6 +2,7 @@
  * The MIT License
  * <p>
  * Copyright (c) 2013, Sebastian Sdorra
+ * Copyright (c) 2017, Pavel Zhuk
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,10 +33,7 @@ import sonia.youtrack.dto.Field;
 import sonia.youtrack.dto.FieldValue;
 import sonia.youtrack.dto.IssueDTO;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -484,6 +482,26 @@ public final class Issue {
         }
 
         return Collections.unmodifiableList(users);
+    }
+
+    public void changeField(String field, String value) {
+        String command = field + " " + value;
+        session.executeCommand(dto.getId(), command);
+    }
+
+    public void changeMultipleFields(Map<String, String> fields) {
+        StringBuilder command = new StringBuilder();
+        for (Map.Entry<String, String> field: fields.entrySet()) {
+            command.append(field.getKey());
+            command.append(" ");
+            command.append(field.getValue());
+            command.append(" ");
+        }
+        session.executeCommand(dto.getId(), command.toString().trim());
+    }
+
+    public void executeCommand(String command) {
+        session.execute(dto.getId(), "command", command);
     }
 
     //~--- fields ---------------------------------------------------------------
