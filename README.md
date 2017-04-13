@@ -4,7 +4,7 @@ YouTrack REST API Reference:
 
 - https://confluence.jetbrains.com/display/YTD65/YouTrack+REST+API+Reference
 
-##Sample:
+## Sample:
 
 Get all project's issues:
 ```java
